@@ -1,2 +1,2 @@
-# BBS-
-Flask BBS论坛项目
+# BBS
+Flask 搭建的论坛项目
