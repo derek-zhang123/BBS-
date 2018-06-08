@@ -7,34 +7,9 @@
     <script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
     <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <style>
-        body{
-            background:#f3f3f3;
-        }
-        .outer-box{
-            width: 854px;
-            background: #fff;
-            margin: 0 auto;
-            overflow: hidden;
-        }
-        .logo-box{
-            text-align: center;
-            padding-top: 40px;
-        }
-        .logo-box img{
-            width: 60px;
-            height: 60px;
-        }
-        .page-title{
-            text-align: center;
-        }
-        .sign-box{
-            width: 300px;
-            margin: 0 auto;
-            padding-top: 50px;
-        }
-    </style>
-
+    <script src="{{ static('common/zlparam.js') }}"></script>
+    <script src="{{ static('front/js/front_signup.js') }}"></script>
+    <link rel="stylesheet" href="{{ static('front/css/front_signup.css') }}">
 
 </head>
 <body>
@@ -78,8 +53,8 @@
              <div class="form-group">
                 <div class="input-group">
                     <input type="text" class="form-control" name="graph_captcha" placeholder="图形验证码">
-                    <span class="input-group-addon">
-                        验证码
+                    <span class="input-group-addon captcha-addon">
+                        <img id="captcha-img" class="captcha-img" src="{{ url_for('front.graph_captcha') }}" alt="">
                     </span>
                 </div>
             </div>
