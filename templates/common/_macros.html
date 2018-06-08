@@ -1,0 +1,5 @@
+{#“-”表示去掉换行#}
+
+{% macro static(filename) -%}
+    {{ url_for("static",filename=filename) }}
+{%- endmacro %}

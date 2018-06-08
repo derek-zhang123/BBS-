@@ -1,0 +1,4 @@
+
+*.js linguist-language=Flask
+*.css linguist-language=Flask
+*.html linguist-language=Flask
