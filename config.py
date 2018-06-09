@@ -8,6 +8,7 @@ DEBUG = True
 DB_URI = "mysql+pymysql://root:123456@127.0.0.1:3306/bbs?charset=utf8"
 
 CMS_USER_ID = 'aaa'    #随便写一值，这样session更加安全
+FRONT_USER_ID = 'FFFF'
 
 SQLALCHEMY_DATABASE_URI = DB_URI
 SQLALCHEMY_TRACK_MODIFICATIONS =False
