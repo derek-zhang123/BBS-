@@ -10,6 +10,7 @@ $(function () {
     });
 });
 
+
 $(function () {
     $("#sms-captcha-btn").click(function (event) {
         event.preventDefault();
@@ -47,6 +48,52 @@ $(function () {
                 } else {
                     zlalert.alertInfoToast(data['message']);
                 }
+            }
+        });
+    });
+});
+
+
+$(function () {
+    $('#submit-btn').on('click', function () {
+        var telephone_input = $('input[name=telephone]');
+        var sms_captcha_input = $('input[name=sms_captcha]');
+        var username_input = $('input[name=username]');
+        var password_input = $('input[name=password1]');
+        var password2_input = $('input[name=password2]');
+        var graph_captcha_input = $('input[name=graph_captcha]');
+
+        var telephone = telephone_input.val();
+        var sms_captcha = sms_captcha_input.val();
+        var username = username_input.val();
+        var password = password_input.val();
+        var password2 = password2_input.val();
+        var graph_captcha = graph_captcha_input.val();
+
+        zlajax.post({
+            'url': '/signup/',
+            'data': {
+                'telephone': telephone,
+                'sms_captcha': sms_captcha,
+                'username': username,
+                'password': password,
+                'password2': password2,
+                'graph_captcha': graph_captcha
+            },
+            'success': function (data) {
+                if (data['code'] == 200) {
+                    var return_to = $('#return-to-span').text();
+                    if (return_to) {
+                        window.location = return_to
+                    } else {
+                        window.location = '/'
+                    }
+                } else {
+                    zlalert.alertInfoToast(data['message']);
+                }
+            },
+            'fail': function () {
+                zlalert.alertNetworkError();
             }
         });
     });
