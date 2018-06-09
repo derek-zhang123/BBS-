@@ -1,37 +1,21 @@
+{% extends 'front/signbase.html' %}
 {% from 'common/_macros.html' import static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>仙剑账号注册</title>
-    <script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
-    <link href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="{{ static('common/zlajax.js') }}"></script>
-    <link rel="stylesheet" href="{{ static("common/sweetalert/sweetalert.css") }}">
-    <script src="{{ static("common/sweetalert/sweetalert.min.js") }}"></script>
-    <script src="{{ static("common/sweetalert/zlalert.js") }}"></script>
-    <script src="{{ static('common/zlparam.js') }}"></script>
+
+{% block title %}
+    仙剑论坛注册
+{% endblock %}
+
+{% block head %}
     <script src="{{ static('front/js/front_signup.js') }}"></script>
-    <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
-    <link rel="stylesheet" href="{{ static('front/css/front_signup.css') }}">
 
-</head>
-<body>
+{% endblock %}
 
-    <div class="outer-box">
-        <div class="logo-box">
-            <a href="/">
-                <img src="{{ static('common/images/logo.jpg') }}" alt="">
-            </a>
-        </div>
+{% block h2_block %}
+    仙剑论坛注册
+{% endblock %}
 
-        <h2 class="page-title">仙剑账号注册</h2>
-
-        <div class="sign-box">
-
-            <div class="form-group">
+{% block signbox %}
+    <div class="form-group">
                 <div class="input-group">
                     <input type="text" class="form-control" name="telephone" placeholder="手机号码">
                     <span class="input-group-btn">
@@ -66,13 +50,8 @@
             </div>
 
             <div class="form-group">
-                <span style="display: none" id="return-to-span">{{ return_to }}</span>
+
                 <button id="submit-btn" class="btn btn-warning btn-block">立即注册</button>
             </div>
+{% endblock %}
 
-        </div>
-    </div>
-
-
-</body>
-</html>

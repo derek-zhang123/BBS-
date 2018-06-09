@@ -1,0 +1,39 @@
+{% extends 'front/signbase.html' %}
+{% from 'common/_macros.html' import static %}
+
+{% block title %}
+仙剑论坛登录
+{% endblock %}
+
+{% block head %}
+    <style>
+    .resetpwd-link{
+        float:right;
+    }
+    </style>
+{% endblock %}
+
+{% block h2_block %}
+仙剑论坛账号登录
+{% endblock %}
+
+{% block signbox %}
+    <div class="form-group">
+        <input class="form-control" type="text" name="telephone" placeholder="手机号" >
+    </div>
+    <div class="form-group">
+            <input class="form-control" type="password" name="password" placeholder="密码" >
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" name="remember" value="1">记住我
+        </label>
+    </div>
+    <div class="form-group">
+        <button id="submit-btn" class="btn btn-warning btn-block">立即登录</button>
+    </div>
+    <div class="form-group">
+        <a href="{{ url_for('front.signup') }}" class="signup-link">没有账号?立即注册</a>
+        <a href="#" class="resetpwd-link">忘记密码?</a>
+    </div>
+{% endblock %}
