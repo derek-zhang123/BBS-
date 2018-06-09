@@ -2,8 +2,8 @@
 __author__ = 'derek'
 
 import os
-SECRET_KEY = os.urandom(24)
-
+# SECRET_KEY = os.urandom(24)
+SECRET_KEY = 'abcdefg'
 DEBUG = True
 DB_URI = "mysql+pymysql://root:123456@127.0.0.1:3306/bbs?charset=utf8"
 

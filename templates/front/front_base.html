@@ -1,9 +1,11 @@
+{% from "common/_macros.html" import static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
 
     <meta charset="UTF-8">
     {% include "common/_head.html" %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='front/css/front_base.css') }}">
     <title>{% block title %}{% endblock %}</title>
     {% block head %}{% endblock %}
 
@@ -42,9 +44,10 @@
     </div><!-- /.container-fluid -->
 </nav>
 
-{% block body %}
+<div class="main-container">
+    {% block body %}
 
-{% endblock %}
-
+    {% endblock %}
+</div>
 </body>
 </html>

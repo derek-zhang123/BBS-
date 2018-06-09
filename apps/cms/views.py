@@ -157,6 +157,12 @@ class ResetEmail(views.MethodView):
         else:
             return restful.params_error(form.get_error())
 
+@bp.route('/banners/')
+@login_required
+def banners():
+    return render_template('cms/cms_banners.html')
+
+
 
 bp.add_url_rule('/login/',view_func=LoginView.as_view('login'))
 bp.add_url_rule('/resetpwd/',view_func=ResetPwdView.as_view('resetpwd'),strict_slashes=False)
