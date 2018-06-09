@@ -3,7 +3,7 @@ __author__ = 'derek'
 
 from flask import Blueprint,views,render_template,request,session,g
 from flask import url_for,redirect,jsonify
-from .forms import LoginForm,ResetpwdForm,ResetEmailForm,AddBannerForm
+from .forms import LoginForm,ResetpwdForm,ResetEmailForm,AddBannerForm,UpdateBannerForm
 from .models import CMSUser,CMSPermission
 from .decorators import login_required,permission_required
 import  config
@@ -179,6 +179,43 @@ def abanner():
     else:
         return restful.params_error(message=form.get_error())
 
+
+@bp.route('/ubanner/',methods=['POST'])
+def ubanner():
+    form=UpdateBannerForm(request.form)
+    if form.validate():
+        banner_id=form.banner_id.data
+        name=form.name.data
+        img_url=form.img_url.data
+        link_url=form.link_url.data
+        priority=form.priority.data
+        banner=BannerModel.query.get(banner_id)
+        if banner:
+            banner.name=name
+            banner.img_url=img_url
+            banner.link_url=link_url
+            banner.priority=priority
+            db.session.commit()
+            return restful.success()
+        else:
+            return restful.params_error(message='没有这个轮播图')
+    else:
+        return restful.params_error(message=form.get_error())
+
+@bp.route('/dbanner/',methods=['POST'])
+def dbanner():
+    banner_id=request.form.get('banner_id')
+    print(banner_id)
+    if not banner_id:
+        return restful.params_error(message='请传入轮播图参数')
+    banner=BannerModel.query.get(banner_id)
+    print(banner)
+    if not banner:
+        return restful.params_error(message='没有此数据')
+
+    db.session.delete(banner)
+    db.session.commit()
+    return restful.success()
 
 
 

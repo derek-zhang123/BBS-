@@ -28,8 +28,9 @@
         <tr>
             <td>名称</td>
             <td>图片链接</td>
-            <td>优先级</td>
+
             <td>跳转链接</td>
+            <td>优先级</td>
             <td>创建日期</td>
             <td>操作</td>
         </tr>
@@ -37,7 +38,9 @@
 
         <tbody>
         {% for banner in banners %}
-            <tr>
+            <tr data-name="{{ banner.name }}" data-id="{{ banner.id }}" data-img="{{ banner.img_url }}"
+                data-link="{{ banner.link_url }}" data-priority="{{ banner.priority }}">
+
                 <td>{{ banner.name }}</td>
                 <td><a href="{{ banner.img_url }}" target="_blank">{{ banner.img_url }}</a></td>
                 <td><a href="{{ banner.link_url }}" target="_blank">{{ banner.link_url }}</a></td>
@@ -48,9 +51,7 @@
                     <button class="btn btn-danger btn-xs delete-banner-btn">删除</button>
                 </td>
             </tr>
-
         {% endfor %}
-
         </tbody>
     </table>
 
