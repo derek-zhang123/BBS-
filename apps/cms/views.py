@@ -161,7 +161,8 @@ class ResetEmail(views.MethodView):
 @bp.route('/banners/')
 @login_required
 def banners():
-    return render_template('cms/cms_banners.html')
+    banners = BannerModel.query.all()
+    return render_template('cms/cms_banners.html',banners=banners)
 
 @bp.route('/abanner/',methods=['POST'])
 def abanner():
