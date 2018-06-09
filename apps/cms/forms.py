@@ -39,3 +39,10 @@ class ResetEmailForm(BaseForm):
         user = g.cms_user
         if user.email == email:
             raise ValidationError('不能修改为当前使用的邮箱！')
+
+
+class AddBannerForm(BaseForm):
+    name=StringField(validators=[InputRequired(message='请输入轮播图名称')])
+    img_url=StringField(validators=[InputRequired(message='请输入轮播图链接')])
+    link_url=StringField(validators=[InputRequired(message='请输入轮播图跳转链接')])
+    priority=IntegerField(validators=[InputRequired(message='请输入轮播图优先级')])

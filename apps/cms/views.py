@@ -3,7 +3,7 @@ __author__ = 'derek'
 
 from flask import Blueprint,views,render_template,request,session,g
 from flask import url_for,redirect,jsonify
-from .forms import LoginForm,ResetpwdForm,ResetEmailForm
+from .forms import LoginForm,ResetpwdForm,ResetEmailForm,AddBannerForm
 from .models import CMSUser,CMSPermission
 from .decorators import login_required,permission_required
 import  config
@@ -11,6 +11,7 @@ from exts import db,mail
 from flask_mail import Message
 from utils import restful,zlcache
 import string,random
+from ..models import BannerModel
 
 bp = Blueprint("cms",__name__,url_prefix='/cms')
 
@@ -161,6 +162,22 @@ class ResetEmail(views.MethodView):
 @login_required
 def banners():
     return render_template('cms/cms_banners.html')
+
+@bp.route('/abanner/',methods=['POST'])
+def abanner():
+    form=AddBannerForm(request.form)
+    if form.validate():
+        name=form.name.data
+        img_url=form.img_url.data
+        link_url=form.link_url.data
+        priority=form.priority.data
+        banner=BannerModel(name=name,img_url=img_url,link_url=link_url,priority=priority)
+        db.session.add(banner)
+        db.session.commit()
+        return restful.success()
+    else:
+        return restful.params_error(message=form.get_error())
+
 
 
 
