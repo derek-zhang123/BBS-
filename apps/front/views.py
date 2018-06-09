@@ -11,16 +11,6 @@ bp = Blueprint("front",__name__)
 def index():
     return 'front index'
 
-@bp.route('/captcha/')
-def graph_captcha():
-    text,image = Captcha.gene_graph_captcha()
-    out = BytesIO()
-    image.save(out,'png')   #指定格式为png
-    out.seek(0)             #把指针指到开始位置
-    resp = make_response(out.read())
-    resp.content_type = 'image/png'
-    return resp
-
 
 class SignupView(views.MethodView):
     def get(self):
