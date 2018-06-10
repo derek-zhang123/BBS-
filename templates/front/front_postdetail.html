@@ -1,0 +1,32 @@
+{% extends 'front/front_base.html' %}
+{% from 'common/_macros.html' import static %}
+
+{% block title %}
+    {{ post.title }}
+{% endblock %}
+
+{% block head %}
+
+    <link rel="stylesheet" href="{{ static('front/css/front_pdetail.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="lg-container">
+        <div class="post-container">
+            <h2>{{ post.title }}</h2>
+            <p class="post-info-group">
+                <span>发表时间:{{ post.create_time }}</span>
+                <span>作者:{{ post.author.username }}</span>
+                <span>版块:{{ post.board.name }}</span>
+                <span>阅读数:{{ post.read_count }}</span>
+                <span>评论数:0</span>
+            </p>
+            <article class="post-content" id="post-content" data-id="{{ post.id }}">
+                {{ post.content|safe }}
+            </article>
+        </div>
+    </div>
+
+    <div class="sm-container"></div>
+
+{% endblock %}

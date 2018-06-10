@@ -2,7 +2,7 @@
 __author__ = 'derek'
 
 from flask import Blueprint, views, render_template, make_response,request
-from flask import session,url_for,g
+from flask import session,url_for,g,abort
 from .forms import SignupForm,SigninForm,AddPostForm
 from utils import restful,safeutils
 from .models import FrontUser
@@ -45,6 +45,15 @@ def index():
         'current_board':board_id      #把当前板块id传到前端，前端添加“active”样式
     }
     return render_template('front/front_index.html',**context)
+
+
+@bp.route('/p/<post_id>')
+def post_detail(post_id):
+    print(post_id)
+    post=PostModel.query.get(post_id)
+    if not post:
+        abort(404)
+    return render_template('front/front_postdetail.html',post=post)
 
 
 @bp.route('/apost/', methods=['POST', 'GET'])

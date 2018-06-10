@@ -62,7 +62,7 @@
                             </div>
 
                             <div class="post-info-group">
-                                <p class="post-title">{{ post.title }}</p>
+                                <p class="post-title"><a href="{{ url_for('front.post_detail',post_id=post.id) }}">{{ post.title }}</a></p>
                                 <p class="post-info">
                                     <span>作者:{{ post.author.username }}</span>
                                     <span>发表时间:{{ post.create_time }}</span>
