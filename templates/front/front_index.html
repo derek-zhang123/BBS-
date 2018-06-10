@@ -57,7 +57,8 @@
                     {% for post in posts %}
                         <li>
                             <div class="author-avatar-group">
-                                <img src="{{ post.author.avatar or url_for('static',filename='common/images/logo.jpg') }}" alt="">
+                                <img src="{{ post.author.avatar or url_for('static',filename='common/images/logo.jpg') }}"
+                                     alt="">
                             </div>
 
                             <div class="post-info-group">
@@ -73,6 +74,9 @@
                     {% endfor %}
                 </ul>
 
+                <div style="text-align: center">
+                    {{ pagination.links }}
+                </div>
             </div>
 
         </div>
@@ -82,12 +86,19 @@
                 <a class="btn btn-warning btn-block" href="{{ url_for('front.apost') }}" id="add-post-btn">发布帖子</a>
             </div>
 
-
             <div class="list-group">
-                <a href="#" class="list-group-item active">所有板块</a>
-
+                {% if current_board %}
+                    <a href="/" class="list-group-item">所有版块</a>
+                {% else %}
+                    <a href="/" class="list-group-item active">所有版块</a>
+                {% endif %}
                 {% for board in boards %}
-                    <a href="#" class="list-group-item">{{ board.name }}</a>
+                    {% if board.id==current_board %}
+                        <a href="{{ url_for('front.index',bd=board.id) }}"
+                           class="list-group-item active">{{ board.name }}</a>
+                    {% else %}
+                        <a href="{{ url_for('front.index',bd=board.id) }}" class="list-group-item">{{ board.name }}</a>
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>

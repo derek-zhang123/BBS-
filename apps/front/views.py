@@ -10,19 +10,39 @@ from exts import db
 import config
 from ..models import BannerModel,BoardModel,PostModel
 from .decorators import login_requried
+from flask_paginate import Pagination,get_page_parameter
 
 bp = Blueprint("front", __name__)
 
 
 @bp.route('/')
 def index():
+    board_id = request.args.get('bd', type=int, default=None)
+    # 获取当前页码数
+    page = request.args.get(get_page_parameter(), type=int, default=1)
     banners = BannerModel.query.order_by(BannerModel.priority.desc()).limit(4)
     boards = BoardModel.query.all()
-    posts = PostModel.query.all()
+    # 显示10条帖子
+    start = (page - 1) * config.PER_PAGE
+    end = start + config.PER_PAGE
+    posts = None
+    total = 0
+    if board_id:
+        query_obj = PostModel.query.filter_by(board_id=board_id)
+        posts = query_obj.slice(start,end)
+        total = query_obj.count()
+    else:
+        posts = PostModel.query.slice(start, end)
+        total = PostModel.query.count()
+    # bs_version=3:表示用Bootstrap v3版本
+    pagination = Pagination(bs_version=3,page=page,total=total,outer_window = 0, inner_window = 2)
+
     context = {
         'banners':banners,
         'boards':boards,
         'posts':posts,
+        'pagination':pagination,
+        'current_board':board_id      #把当前板块id传到前端，前端添加“active”样式
     }
     return render_template('front/front_index.html',**context)
 
