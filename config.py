@@ -28,3 +28,6 @@ ALIDAYU_APP_KEY = 'LTaAxIWVQxxxxxxT8Q'
 ALIDAYU_APP_SECRET = 'AESRSxcqR7e4xxxxcIL8LhJ'
 ALIDAYU_SIGN_NAME = '仙剑论坛网站'
 ALIDAYU_TEMPLATE_CODE = 'SMS_136870947'
+
+
+UEDITOR_UPLOAD_PATH=os.path.join(os.path.dirname(__file__),'images')
