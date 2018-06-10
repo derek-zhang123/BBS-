@@ -2,7 +2,7 @@
 __author__ = 'derek'
 
 from flask import Blueprint, views, render_template, make_response,request
-from flask import session,url_for
+from flask import session,url_for,g
 from .forms import SignupForm,SigninForm,AddPostForm
 from utils import restful,safeutils
 from .models import FrontUser
@@ -18,9 +18,11 @@ bp = Blueprint("front", __name__)
 def index():
     banners = BannerModel.query.order_by(BannerModel.priority.desc()).limit(4)
     boards = BoardModel.query.all()
+    posts = PostModel.query.all()
     context = {
         'banners':banners,
-        'boards':boards
+        'boards':boards,
+        'posts':posts,
     }
     return render_template('front/front_index.html',**context)
 
@@ -41,6 +43,7 @@ def apost():
             if not board:
                 return restful.params_error(message='没有这个版块')
             post = PostModel(title=title, content=content, board_id=board_id)
+            post.author = g.front_user
             post.board = board
             db.session.add(post)
             db.session.commit()
