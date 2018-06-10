@@ -1,12 +1,13 @@
 # common/views.py
 __author__ = 'derek'
 
-from flask import Blueprint, request,make_response
+from flask import Blueprint, request,make_response,jsonify
 from exts import alidayu
 from utils import restful, zlcache
 from .form import SMSCaptchaForm
 from utils.captcha import Captcha
 from io import BytesIO
+import qiniu
 
 bp = Blueprint("common", __name__, url_prefix='/c')
 
@@ -51,3 +52,16 @@ def graph_captcha():
     resp = make_response(out.read())
     resp.content_type = 'image/png'
     return resp
+
+
+@bp.route('/uptoken/')
+def uptoken():
+    #七牛的key
+    access_key = 'Fx4vOjkbi1HOJ67-8r7baXH4Eh7xhJTxh5q7Y3uZ'
+    secret_key = 'nchG9ccJ_qB7OYGKaQn1AmeOdBZXBOZQcaizanfs'
+    q = qiniu.Auth(access_key,secret_key)
+    #七牛存储空间名字
+    bucket = 'zhangderek'
+    token = q.upload_token(bucket)
+    #字典的key必须是'uptoken'
+    return jsonify({'uptoken':token})

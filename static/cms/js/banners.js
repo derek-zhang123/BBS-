@@ -104,3 +104,18 @@ $(function () {
         });
     });
 });
+
+$(function () {
+    zlqiniu.setup({
+        'domain': 'http://p96dsgm7r.bkt.clouddn.com/',
+        //上传图片的按钮
+        'browse_btn': 'upload-btn',
+        //提交的url
+        'uptoken_url': '/c/uptoken/',
+        'success': function (up, file, info) {
+            //上传成功后，显示图片的url
+            var imageInput = $("input[name='img_url']");
+            imageInput.val(file.name);
+        }
+    });
+});
