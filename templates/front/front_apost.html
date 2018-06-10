@@ -1,0 +1,46 @@
+{% extends 'front/front_base.html' %}
+{% from 'common/_macros.html' import static %}
+
+{% block title %}
+    发布帖子
+{% endblock %}
+
+{% block head %}
+    <script src="{{ static('ueditor/ueditor.config.js') }}"></script>
+    <script src="{{ static('ueditor/ueditor.all.min.js') }}"></script>
+    <script src="{{ static('front/js/front_apost.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <form method="post">
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">标题</span>
+                <input type="text" name="title" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">版块</span>
+                <select name="board_id" class="form-control">
+                    {% for board in boards %}
+                        <option value="{{ board.id }}">{{ board.name }}</option>
+
+                    {% endfor %}
+
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <script id="ueditor" type="text/plain" style="height:300px;"></script>
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-danger" id="submit-btn">发布帖子</button>
+        </div>
+
+    </form>
+
+{% endblock %}
