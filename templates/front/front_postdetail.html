@@ -6,7 +6,9 @@
 {% endblock %}
 
 {% block head %}
-
+    <script src="{{ static('ueditor/ueditor.config.js') }}"></script>
+    <script src="{{ static('ueditor/ueditor.all.min.js') }}"></script>
+    <script src="{{ static('front/js/front_pdetail.js') }}"></script>
     <link rel="stylesheet" href="{{ static('front/css/front_pdetail.css') }}">
 {% endblock %}
 
@@ -25,8 +27,40 @@
                 {{ post.content|safe }}
             </article>
         </div>
+
+      <div class="comment-group">
+        <h4>评论列表:</h4>
+        <ul class="comment-list-group">
+            {% for comment in post.comments %}
+                <li>
+                <div class="avatar-group">
+                    <img src="{{ comment.author.avatar or static('common/images/logo.jpg') }}" alt="">
+                </div>
+                <div class="comment-content">
+                    <p class="author-info">
+                        <span>{{ comment.author.username }}</span>
+                        <span>{{ comment.create_time }}</span>
+                    </p>
+                    <p class="comment-txt">
+                        {{ comment.content|safe }}
+                    </p>
+                </div>
+                </li>
+            {% endfor %}
+
+        </ul>
     </div>
 
-    <div class="sm-container"></div>
+    <div class="add-comment-group">
+        <h3>添加评论</h3>
+        <script id="editor" style="height:100px;" type="text/plain"></script>
+        <div class="add_comment_btn">
 
+            <button class="btn btn-primary" id='comment-btn'>发表评论</button>
+        </div>
+
+    </div>
+
+    </div>
+    <div class="sm-container"></div>
 {% endblock %}
