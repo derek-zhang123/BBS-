@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block head %}
-    <link rel="stylesheet" href="{{ static('front/css/front_index.css')  }}">
+    <link rel="stylesheet" href="{{ static('front/css/front_index.css') }}">
 {% endblock %}
 
 {% block body %}
@@ -27,27 +27,38 @@
                     {% else %}
                         <div class="item ">
                     {% endif %}
-                        <a href="{{ banner.link_url }}">
-                            <img src="{{ banner.img_url }}" alt="">
-                        </a>
-                        </div>
+                <a href="{{ banner.link_url }}">
+                    <img src="{{ banner.img_url }}" alt="">
+                </a>
+                </div>
                 {% endfor %}
+                </div>
+
+                <!-- 左右切换的控制按钮 -->
+                <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="sm-container">
+            <div style="margin-bottom: 10px;">
+                <button class="btn btn-warning btn-block">发布帖子</button>
             </div>
 
-            <!-- 左右切换的控制按钮 -->
-            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
+
+            <div class="list-group">
+                <a href="#" class="list-group-item active">所有板块</a>
+
+                {% for board in boards %}
+                    <a href="#" class="list-group-item">{{ board.name }}</a>
+                {% endfor %}
+            </div>
         </div>
-    </div>
-
-    <div class="sm-container">
-
-    </div>
 
 {% endblock %}
