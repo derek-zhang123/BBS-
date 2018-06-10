@@ -1,17 +1,47 @@
 {% extends 'cms/cms_base.html' %}
-
+{%  from'common/_macros.html' import static %}
 {% block title %}
     板块管理
 {% endblock %}
 
 {% block head %}
-
+    <script src="{{ static('cms/js/boards.js') }}"></script>
 {% endblock %}
 
 {% block page_title %}
     {{ self.title() }}
 {% endblock %}
 
+
 {% block main_content %}
-    板块管理页面
+    <div class="top-box">
+        <button class="btn btn-warning" id="add_board_btn" style="float: right">添加新版块</button>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>版块名称</th>
+            <th>帖子数量</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for board in boards %}
+            <tr data-name="{{ board.name }}" data-id="{{ board.id }}">
+                <td>{{ board.name }}</td>
+                <td>0</td>
+                <td>{{ board.create_time }}</td>
+                <td>
+                    <button class="btn btn-default edit-board-btn">编辑</button>
+                    <button class="btn btn-danger delete-board-btn">删除</button>
+                </td>
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}

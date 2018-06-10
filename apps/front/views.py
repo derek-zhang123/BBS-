@@ -8,6 +8,7 @@ from utils import restful,safeutils
 from .models import FrontUser
 from exts import db
 import config
+from ..models import BannerModel
 
 
 bp = Blueprint("front", __name__)
@@ -15,7 +16,11 @@ bp = Blueprint("front", __name__)
 
 @bp.route('/')
 def index():
-    return render_template('front/front_index.html')
+    banners = BannerModel.query.order_by(BannerModel.priority.desc()).limit(4)
+    context = {
+        'banners':banners
+    }
+    return render_template('front/front_index.html',**context)
 
 
 class SignupView(views.MethodView):

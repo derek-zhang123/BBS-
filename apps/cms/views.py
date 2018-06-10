@@ -4,6 +4,7 @@ __author__ = 'derek'
 from flask import Blueprint,views,render_template,request,session,g
 from flask import url_for,redirect,jsonify
 from .forms import LoginForm,ResetpwdForm,ResetEmailForm,AddBannerForm,UpdateBannerForm
+from .forms import AddBoardsForm,UpdateBoardForm
 from .models import CMSUser,CMSPermission
 from .decorators import login_required,permission_required
 import  config
@@ -11,7 +12,7 @@ from exts import db,mail
 from flask_mail import Message
 from utils import restful,zlcache
 import string,random
-from ..models import BannerModel
+from ..models import BannerModel,BoardModel
 
 bp = Blueprint("cms",__name__,url_prefix='/cms')
 
@@ -47,7 +48,63 @@ def comments():
 @login_required
 @permission_required(CMSPermission.BOARDER)
 def boards():
-    return render_template('cms/cms_boards.html')
+    board_models=BoardModel.query.all()
+    context={
+        'boards':board_models
+    }
+    return render_template('cms/cms_boards.html',**context)
+
+@bp.route('/aboards/',methods=['POST'])
+@login_required
+@permission_required(CMSPermission.BOARDER)
+def aboards():
+    form=AddBoardsForm(request.form)
+    if form.validate():
+        name=form.name.data
+        board=BoardModel(name=name)
+        db.session.add(board)
+        db.session.commit()
+        return restful.success()
+    else:
+        return restful.params_error(message=form.get_error())
+
+
+@bp.route('/uboards/',methods=['POST'])
+@login_required
+@permission_required(CMSPermission.BOARDER)
+def uboards():
+    form=UpdateBoardForm(request.form)
+    if form.validate():
+        board_id=form.board_id.data
+        name=form.name.data
+        board=BoardModel.query.get(board_id)
+        if board:
+            board.name=name
+            db.session.commit()
+            return restful.success()
+        else:
+            return restful.params_error(message='没有这个版块')
+    else:
+        return restful.params_error(message=form.get_error())
+
+
+@bp.route('/dboards/',methods=['POST'])
+@login_required
+@permission_required(CMSPermission.BOARDER)
+def dboards():
+    board_id=request.form.get('board_id')
+    if not board_id:
+        return restful.params_error(message='请传入版块ID')
+    board=BoardModel.query.get(board_id)
+    if board:
+        db.session.delete(board)
+        db.session.commit()
+        return restful.success()
+    else:
+        return restful.params_error(message='没有这个版块')
+
+
+
 
 @bp.route('/fusers/')
 @login_required
@@ -161,7 +218,7 @@ class ResetEmail(views.MethodView):
 @bp.route('/banners/')
 @login_required
 def banners():
-    banners = BannerModel.query.all()
+    banners = BannerModel.query.order_by(BannerModel.priority.desc()).all()
     return render_template('cms/cms_banners.html',banners=banners)
 
 @bp.route('/abanner/',methods=['POST'])
@@ -216,6 +273,9 @@ def dbanner():
     db.session.delete(banner)
     db.session.commit()
     return restful.success()
+
+
+
 
 
 

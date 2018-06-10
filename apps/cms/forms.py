@@ -50,3 +50,10 @@ class AddBannerForm(BaseForm):
 
 class UpdateBannerForm(AddBannerForm):
     banner_id=IntegerField(validators=[InputRequired(message='请输入轮播图ID')])
+
+
+class AddBoardsForm(BaseForm):
+    name=StringField(validators=[InputRequired(message='请输入版块名称'),Length(2,15,message='长度应在2-15个字符之间')])
+
+class UpdateBoardForm(AddBoardsForm):
+    board_id=IntegerField(validators=[InputRequired(message='请输入版块名称')])
