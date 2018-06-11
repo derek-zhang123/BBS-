@@ -46,11 +46,32 @@
             </div>
 
             <div class="post-group">
-                <ul class="post-group-head">
-                    <li class="active"><a href="#">最新</a></li>
-                    <li><a href="#">精华帖子</a></li>
-                    <li><a href="#">点赞最多</a></li>
-                    <li><a href="#">评论最多</a></li>
+               <ul class="post-group-head">
+                    {% if current_sort==1 %}
+                        <li class="active"><a href="{{ url_for('front.index',bd=current_board) }}">最新</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('front.index',bd=current_board) }}">最新</a></li>
+                    {% endif %}
+
+                    {% if current_sort==2 %}
+                        <li class="active"><a href="{{ url_for('front.index',st=2,bd=current_board) }}">精华帖子</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('front.index',st=2,bd=current_board) }}">精华帖子</a></li>
+                    {% endif %}
+
+                    {% if current_sort==3 %}
+                        <li class="active"><a href="{{ url_for('front.index',st=3,bd=current_board) }}">点赞最多</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('front.index',st=3,bd=current_board) }}">点赞最多</a></li>
+                    {% endif %}
+
+                    {% if current_sort==4 %}
+                        <li class="active"><a href="{{ url_for('front.index',st=4,bd=current_board) }}">评论最多</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('front.index',st=4,bd=current_board) }}">评论最多</a></li>
+                    {% endif %}
+
+
                 </ul>
 
                 <ul class="post-list-group">
@@ -62,7 +83,12 @@
                             </div>
 
                             <div class="post-info-group">
-                                <p class="post-title"><a href="{{ url_for('front.post_detail',post_id=post.id) }}">{{ post.title }}</a></p>
+                                <p class="post-title"><a href="{{ url_for('front.post_detail',post_id=post.id) }}">{{ post.title }}</a>
+                                 {% if post.highlight %}
+                                        <span class="label label-danger">精华帖</span>
+
+                                 {% endif %}
+                                </p>
                                 <p class="post-info">
                                     <span>作者:{{ post.author.username }}</span>
                                     <span>发表时间:{{ post.create_time }}</span>
