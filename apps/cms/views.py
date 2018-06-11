@@ -12,7 +12,7 @@ from exts import db,mail
 from flask_mail import Message
 from utils import restful,zlcache
 import string,random
-from ..models import BannerModel,BoardModel
+from ..models import BannerModel,BoardModel,HighLight,PostModel
 
 bp = Blueprint("cms",__name__,url_prefix='/cms')
 
@@ -36,7 +36,48 @@ def profile():
 @login_required
 @permission_required(CMSPermission.POSTER)
 def posts():
-    return render_template('cms/cms_posts.html')
+    context = {
+        'posts': PostModel.query.all()
+    }
+    return render_template('cms/cms_posts.html',**context)
+
+
+@bp.route('/hpost/',methods=['POST'])
+@login_required
+@permission_required(CMSPermission.POSTER)
+def hpost():
+    post_id=request.form.get('post_id')
+    if not post_id:
+        return restful.params_error(message='请传入帖子id')
+    post=PostModel.query.get(post_id)
+    if not post:
+        return restful.params_error(message='没有这篇帖子')
+    highlight=HighLight()
+    highlight.post=post
+    db.session.add(highlight)
+    db.session.commit()
+    return restful.success()
+
+
+
+@bp.route('/uhpost/',methods=['POST'])
+@login_required
+@permission_required(CMSPermission.POSTER)
+def uhpost():
+    post_id = request.form.get('post_id')
+    if not post_id:
+        return restful.params_error(message='请传入帖子id')
+    post = PostModel.query.get(post_id)
+    if not post:
+        return restful.params_error(message='没有这篇帖子')
+    print(post_id)
+    highlight=HighLight.query.filter_by(post_id=post_id).first()
+    print(highlight)
+    db.session.delete(highlight)
+    db.session.commit()
+    return restful.success()
+
+
 
 @bp.route('/comments/')
 @login_required
