@@ -13,6 +13,7 @@ from flask_mail import Message
 from utils import restful,zlcache
 import string,random
 from ..models import BannerModel,BoardModel,HighLight,PostModel
+from tasks import send_mail
 
 bp = Blueprint("cms",__name__,url_prefix='/cms')
 
@@ -226,11 +227,14 @@ def email_captcha():
     # 随机取六位作为验证码
     captcha = "".join(random.sample(source, 6))
     #给这个邮箱发送邮件验证码
-    message = Message(subject='derek论坛密码修改邮件发送', recipients=[email,], body='你的验证码是：%s'%captcha)
-    try:
-        mail.send(message)
-    except:
-        return restful.server_error()
+    # message = Message(subject='derek论坛密码修改邮件发送', recipients=[email,], body='你的验证码是：%s'%captcha)
+    # try:
+    #     mail.send(message)
+    # except:
+    #     return restful.server_error()
+
+    #celery异步发送邮件
+    send_mail.delay('derek论坛密码修改邮件发送', [email], '你的验证码是:%s' % captcha)
     #把邮箱和验证码保存到memcached中
     zlcache.set(email,captcha)
     return restful.success()
